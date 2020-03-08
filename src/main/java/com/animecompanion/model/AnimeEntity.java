@@ -30,7 +30,8 @@ public class AnimeEntity {
     private String brand;
     @Column(name ="related_shows")
     private String relatedShows;
-
+    @Column(name = "genres")
+    private String genres;
     public AnimeEntity(String name) { this.name = name; }
     public AnimeEntity(){}
 }
