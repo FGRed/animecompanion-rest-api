@@ -27,4 +27,4 @@
         <mapping class="com.animecompanion.model.AnimeEntity"/>
         <mapping class="com.animecompanion.model.EpisodeEntity"/>
     </session-factory>
-</hibernate-configuration>
+</hibernate-configuration>tt
