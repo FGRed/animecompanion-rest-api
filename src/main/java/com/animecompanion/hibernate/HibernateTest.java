@@ -23,13 +23,14 @@ public class HibernateTest {
         AnimeEntity animeEntity = new AnimeEntity("Dragonball");
         animeEntity.setJapanenseName("ドラゴンボール");
         animeEntity.setCover("https://images-na.ssl-images-amazon.com/images/I/81pUdMt2E6L._SL1500_.jpg");
+        animeEntity.setGenres("Action");
         animeEntity.setBrand("Toei Animation");
 
         AnimeEntity animeEntity1 = new AnimeEntity("One Punch Man");
         animeEntity1.setJapanenseName("ワンパンマン");
         animeEntity1.setCover("https://cdn.europosters.eu/image/1300/julisteet/one-punch-man-destruction-i61133.jpg");
         animeEntity1.setBrand("Madhouse");
-
+        animeEntity.setGenres("Action, Comedy, Shounen");
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
