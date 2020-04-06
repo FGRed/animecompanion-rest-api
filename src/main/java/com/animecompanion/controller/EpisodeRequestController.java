@@ -1,16 +1,19 @@
 package com.animecompanion.controller;
 
+import ch.qos.logback.classic.Logger;
 import com.animecompanion.dao.EpisodeDAO;
 import com.animecompanion.model.EpisodeEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
-
+@RestController
 public class EpisodeRequestController {
     @Autowired
     EpisodeDAO episodeDAO;
@@ -41,24 +44,51 @@ public class EpisodeRequestController {
 
     @GetMapping(value = "episode/all", produces = "application/json")
     public List<EpisodeEntity> getAll(){
-        return episodeDAO.getAll();
+        List<EpisodeEntity> retVal = episodeDAO.getAll();
+        return retVal;
     }
 
-
-
-    @GetMapping("anime/{id}")
+    @GetMapping("episode/{id}")
     public ResponseEntity<?> get(@PathVariable(value = "id") int id) throws ResourceNotFoundException {
         EpisodeEntity episodeEntity = episodeDAO.get(id);
         return ResponseEntity.ok().body(episodeEntity);
     }
 
-    @RequestMapping(value = "/anime/search/{name}")
+    @GetMapping("episode/parent/{id}")
+    public ResponseEntity<?> getByParent(@PathVariable(value = "id") int id) throws ResourceNotFoundException {
+        List<EpisodeEntity> episodeEntityList = episodeDAO.getByParent(id);
+        return ResponseEntity.ok().body(episodeEntityList);
+    }
+
+
+
+    @RequestMapping(value = "/episode/search/{name}")
     public ResponseEntity<?> get(@PathVariable("name") String name){
         EpisodeEntity episodeEntity = episodeDAO.get(name);
         return ResponseEntity.ok().body(episodeEntity);
     }
-    @RequestMapping("anime/delete/{id}")
+    @RequestMapping("episode/delete/{id}")
     public void delete(@PathVariable(value = "id") int id){
         episodeDAO.delete(id);
+    }
+
+    @RequestMapping("episode/get-progress/{id}")
+    public void getProgress(@PathVariable(value = "id") int id){
+        episodeDAO.delete(id);
+    }
+
+    @RequestMapping("/episode/progress/")
+    public void setProgress(HttpServletRequest request){
+
+        String progress = request.getParameter("progress");
+        long id = Long.valueOf(request.getParameter("id"));
+        if(Integer.valueOf(progress) <= 100) {
+            EpisodeEntity episodeEntity = episodeDAO.get(id);
+            episodeEntity.setProgress(progress);
+            episodeDAO.update(episodeEntity);
+            System.out.println("Success!");
+        }else{
+            System.out.println("Cannot be over 100% percent!");
+        }
     }
 }

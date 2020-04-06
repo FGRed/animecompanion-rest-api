@@ -14,6 +14,9 @@
     <bean id = "animeDAO" class = "com.animecompanion.dao.AnimeDAOImpl">
     </bean>
 
+    <bean id = "episodeDAO" class = "com.animecompanion.dao.EpisodeDAOImpl">
+    </bean>
+
     <!-- Definition for spellChecker bean -->
     <bean id = "spellChecker" class = "com.tutorialspoint.SpellChecker">
     </bean>

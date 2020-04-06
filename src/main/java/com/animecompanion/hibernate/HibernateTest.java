@@ -3,6 +3,10 @@ package com.animecompanion.hibernate;
 import com.animecompanion.model.AnimeEntity;
 import com.animecompanion.dao.AnimeDAO;
 import com.animecompanion.dao.AnimeDAOImpl;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +18,13 @@ public class HibernateTest {
     AnimeDAO animeDAO = new AnimeDAOImpl();
 
 
-    public static void main(String[] args) throws InvocationTargetException, IllegalAccessException {
-        new HibernateTest().nonStaticText();
+    public static void main(String[] args) throws InvocationTargetException, IllegalAccessException, UnirestException {
+       // new HibernateTest().nonStaticText();
+        HttpResponse<JsonNode> response = Unirest.post("http://localhost:8080/episode/progress/")
+                .field("parameter", "value")
+                .field("firstname", "Gary")
+                .asJson();
+        System.out.println(response.getBody().toString());
     }
 
 

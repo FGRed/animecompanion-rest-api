@@ -2,11 +2,13 @@ package com.animecompanion.dao;
 
 import com.animecompanion.hibernate.HibernateUtil;
 import com.animecompanion.model.AnimeEntity;
+import com.animecompanion.model.EpisodeEntity;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Query;
@@ -20,7 +22,8 @@ import java.util.List;
 @Service
 public class AnimeDAOImpl implements AnimeDAO {
 
-
+    @Autowired
+    EpisodeDAO episodeDAO;
 
     public AnimeDAOImpl(){
 
@@ -36,6 +39,26 @@ public class AnimeDAOImpl implements AnimeDAO {
 
             TypedQuery<AnimeEntity> allQuery = session.createQuery(all);
             return allQuery.getResultList();
+
+    }
+
+    @Override
+    public AnimeEntity getWeps(long id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try{
+
+            AnimeEntity animeEntity = session.get(AnimeEntity.class, id);
+
+            return animeEntity;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return null;
+
 
     }
 

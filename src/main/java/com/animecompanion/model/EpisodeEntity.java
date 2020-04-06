@@ -1,6 +1,7 @@
 package com.animecompanion.model;
 
 import lombok.Data;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 

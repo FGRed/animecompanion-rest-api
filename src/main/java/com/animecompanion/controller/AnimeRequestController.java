@@ -1,5 +1,8 @@
 package com.animecompanion.controller;
 
+import com.animecompanion.dao.AnimeDTO;
+import com.animecompanion.dao.EpisodeDAO;
+import com.animecompanion.model.EpisodeEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.animecompanion.model.AnimeEntity;
 import com.animecompanion.model.SearchCriteria;
@@ -20,6 +23,9 @@ public class AnimeRequestController {
 
     @Autowired
     AnimeDAO animeDAO;
+
+    @Autowired
+    EpisodeDAO episodeDAO;
 
 
     @PostMapping(path = "anime/update", consumes = "application/json")
@@ -57,6 +63,13 @@ public class AnimeRequestController {
     public ResponseEntity<?> get(@PathVariable(value = "id") int id) throws ResourceNotFoundException {
         AnimeEntity animeEntity = animeDAO.get(id);
         return ResponseEntity.ok().body(animeEntity);
+    }
+    @GetMapping("anime/weps/{id}")
+    public ResponseEntity<?> getWeps(@PathVariable(value = "id") int id) throws ResourceNotFoundException {
+        AnimeEntity animeEntity = animeDAO.get(id);
+        List<EpisodeEntity> episodeEntities = episodeDAO.getByParent(id);
+        ResponseEntity<Object> body = ResponseEntity.ok().body(new AnimeDTO(animeEntity, episodeEntities));
+        return body;
     }
 
     @RequestMapping(value = "/anime/search/{name}")

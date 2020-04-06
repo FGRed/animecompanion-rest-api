@@ -7,6 +7,7 @@ import java.util.List;
 public interface  AnimeDAO {
 
     List<AnimeEntity> getAll();
+    AnimeEntity getWeps(long id);
     AnimeEntity get(long id);
     AnimeEntity get(String name);
 

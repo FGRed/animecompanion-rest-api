@@ -3,6 +3,8 @@ package com.animecompanion.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -32,6 +34,9 @@ public class AnimeEntity {
     private String relatedShows;
     @Column(name = "genres")
     private String genres;
+
+
+
     public AnimeEntity(String name) { this.name = name; }
     public AnimeEntity(){}
 }
